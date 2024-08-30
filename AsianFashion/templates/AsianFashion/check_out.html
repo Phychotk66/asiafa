@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion check out </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bags for women, phone case for women, and bags for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<body>
+<!-- Center aligned content -->
+<div style="text-align: center;">
+<h1>
+    Check out
+</h1>
+<p style="color: red; font-size: x-large;"><strong>{{error_message}}</strong></p>
+<form action="{% url 'AsianFashion:pay' %}" method="post">{% csrf_token %}
+    <!-- If customer buy the cart, return cart_object_list and customer_uuid -->
+    {% if cart_object_list %}
+    <input type="hidden" name="customer_uuid" value={{customer_uuid}}>
+    <input type="hidden" name="cart_object_list" value="{{cart_object_list}}">
+    {% else %}
+    <!-- Customer isn't buying the cart, therefore return item id. -->
+    <input type="hidden" name="item_id" value={{item_id}}>
+    <!-- Return choice id if there is a choice associated with this item. -->
+    {% if choice_id %}
+    <input type="hidden" name="choice_id" value={{choice_id}}>
+    {% endif %}
+    <!-- Return customer_uuid if the customer signed in-->
+    {% if customer_uuid %}
+    <input type="hidden" name="customer_uuid" value={{customer_uuid}}>
+    {% endif %}
+    {% endif %}
+    <!-- Get mailing information -->
+    <label for="first_name" style="font-size: x-large;">First name:</label><br>
+    <input class="text" name="first_name"><br>
+    <label for="last_name" style="font-size: x-large;">Last name:</label><br>
+    <input class="text" name="last_name"><br>
+    <label for="email" style="font-size: x-large;">E-mail:</label><br>
+    <input class="text" name="email"><br>
+    <label for="phone_number" style="font-size: x-large;">Phone number:</label><br>
+    <input class="text" name="phone_number"><br>
+    <label for="street_address_line_1" style="font-size: x-large;">Street address line 1:</label><br>
+    <input class="text" name="street_address_line_1"><br>
+    <label for="street_address_line_2" style="font-size: x-large;">Street address line 2 (if any):</label><br>
+    <input class="text" name="street_address_line_2"><br>
+    <label for="city" style="font-size: x-large;">City:</label><br>
+    <input class="text" name="city"><br>
+    <label for="state" style="font-size: x-large;">State:</label><br>
+    <input class="text" name="state"><br>
+    <label for="zip_code" style="font-size: x-large;">Zip code:</label><br>
+    <input class="text" name="zip_code"><br>
+<div style="font-size: x-large; margin-left: 20%; margin-right: 20%;">
+    <p>Order summary: {{order_summary}} </p>
+    <p>Order total: ${{total_amount}}</p>
+    <!-- Return payment amount and order summary -->
+    <input type="hidden" name="order_summary" value="{{order_summary}}">
+    <input type="hidden" name="total_amount" value={{total_amount}}>
+    <!-- Tail note -->
+    <p style="font-size: large;"><strong>Please double check the information. By clicking pay, we will direct you to a third-party payment system, which might incur a transaction fee that is not refundable.</strong></p>
+</div>
+    <input type="submit" class="textbox" name="pay" value = "Pay">
+</form>
+</div>
+</body>
+</html>

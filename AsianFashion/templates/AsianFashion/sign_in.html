@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion sign in </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bags for women, phone cases for women, and bags for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<!-- Body -->
+<body>
+    <!-- Side navigation -->
+    <div class="sidenav">
+    <a class = "logo" href="{% url 'AsianFashion:women_bag' %}">Asian Fashion</a>
+    </div>
+    <!-- Center aligned content -->
+    <div style="text-align: center;">
+    <!-- Title -->
+    <h1>
+        Sign in
+    </h1>
+    <!-- Sign in form -->
+    <form action="{% url 'AsianFashion:sign_in' %}" method="post">{% csrf_token %}
+        <p style="color: red;font-size: x-large;">{{error_message}}</p>
+        <label for="email" style="font-size: x-large;">E-mail:</label><br>
+        <input class="text" name="email"><br>
+        <label for="password" style="font-size: x-large;">Password:</label><br>
+        <input class="text" name="password"><br>
+        <!-- Pass item_id so customer is redirected to the item page after signing in.-->
+        {% if item_id %}
+        <input type="hidden" name="item_id" value={{item_id}}>
+        {% endif %}
+        <input class="textbox" type="submit" value="submit">
+    </form>
+    <!-- Direct to sign-up page -->
+    <form action="{% url 'AsianFashion:sign_up' %}" method="get">{% csrf_token %}
+        {% if item_id %}
+        <input type="hidden" name="item_id" value={{item_id}}>
+        {% endif %}
+        <input class="textbox" type="submit" value="Don't have an account yet? Sign up!">
+    </form>
+    <!-- Direct to reset password page -->
+    <form action="{% url 'AsianFashion:reset_password' %}" method="get">{% csrf_token %}
+        {% if item_id %}
+        <input type="hidden" name="item_id" value={{item_id}}>
+        {% endif %}
+        <input class="textbox" type="submit" value="Forgot password">
+    </form>
+    <!-- End of center aligned -->
+    </div>
+</body>
+</html>

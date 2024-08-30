@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion shopping cart </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bags for women, phone case for women, and bags for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<body>
+<!-- Side navigation -->
+<div class="sidenav"><div class = "logo">Asian Fashion</div></div>
+<!-- Escape sidebar -->
+<div class="escape_sidebar">
+<!-- Top navigation -->
+<div class="topnav">
+    <a href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Women's</a>
+    <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Men's</a>
+    <a href="{% url 'AsianFashion:cart_signed_in' customer_uuid %}">Cart</a>
+    <a href="{% url 'AsianFashion:sign_out' %}">Sign out</a>
+    <div style="font-size: x-large; color: rgb(255, 128, 0);"> hello, {{customer.email}} </div>
+</div>
+<!-- Display error message. -->
+<div style="text-align: center;">
+<strong style="color: red; font-size: x-large;">{{error_message}}</strong>
+</div>
+<!-- Check if cart is empty. -->
+{% if order_total_amount == 0 %}
+<div style="text-align: center;">
+<p style="font-size: xx-large; margin: 10px;"> Your cart is empty. </p>
+</div>
+<!-- Cart is not empty, display cart. -->
+{% else %}
+{% for cart_object in cart_object_list %}
+<!-- Post Delete cart object Form -->
+<form action="{% url 'AsianFashion:cart_signed_in' customer_uuid %}" method="post">{% csrf_token %}
+<div style="display: flex;">
+    <img src="{% static cart_object.item.img_url %}" width="180px" height="180px"/>
+    <!-- Display the choice along with the item if it has -->
+    {% if cart_object.choice %}
+    <div style="font-size: x-large;"> {{cart_object.item.title}} {{cart_object.choice.choice_text}} ${{cart_object.item.price}}</div>
+    {% else %}
+    <div style="font-size: x-large;"> {{cart_object.item.title}} ${{cart_object.item.price}}</div>
+    {% endif %}
+    <input type="hidden" name = "cart_object_id" value={{cart_object.id}}>
+    <input style="border: none; background-color: aliceblue; margin: 50px; font-size: large;" type="submit" name="delete" value="delete">
+</div>
+</form>
+{% endfor %}
+<div style="text-align: center;">
+<!-- Order Summary -->
+<p style="font-size: x-large; margin: 10px;">Order total before tax: ${{order_total_amount}}</p>
+<p style="font-size: x-large; margin: 10px;">Order total after tax: ${{order_total_amount_with_tax}}</p>
+<p style="font-size: x-large; margin: 10px;">Shipping fee (calculated on before-tax order amount): ${{shipping_cost}}</p>
+<p style="font-size: x-large; margin: 10px;"><strong>Total amount: ${{total_amount}}</strong></p>
+<!-- Check out button -->
+<form action="{% url 'AsianFashion:check_out' %}" method="post">{% csrf_token %}
+<input type="hidden" name="total_amount" value={{total_amount}}>
+<input type="hidden" name="customer_uuid" value={{customer_uuid}}>
+<input class="textbox" type="submit" name="check_out" value = "Check out">
+</div>
+</form>
+{% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- HTML Head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion item detail </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bag for women, phone case, and bag for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<!-- HTML Body -->
+<body>
+<!-- Side navigation -->
+<div class="sidenav">
+<div class = "logo">Asian Fashion</div>
+{% if "women" in item.category %}
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Bag</a>
+    <a href="{% url 'AsianFashion:women_phonecase_signed_in' customer_uuid %}">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather_signed_in' customer_uuid %}">Leather</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:women_bag' %}">Bag</a>
+    <a href="{% url 'AsianFashion:women_phonecase' %}">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather' %}">Leather</a>
+    {% endif %}
+{% elif "men" in item.category %}
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Bag</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:men_bag' %}">Bag</a>
+    {% endif %}
+{% endif %}
+</div>
+<!-- Top navigation -->
+<div class="escape_sidebar">
+<div class="topnav">
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Women's</a>
+    <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Men's</a>
+    <a href="{% url 'AsianFashion:cart_signed_in' customer_uuid %}">Cart</a>
+    <a href="{% url 'AsianFashion:sign_out' %}">Sign out</a>
+    <div style="font-size: x-large; color: rgb(255, 128, 0);"> hello, {{customer.email}} </div>
+    {% else %}
+    <a href="{% url 'AsianFashion:women_bag' %}">Women's</a>
+    <a href="{% url 'AsianFashion:men_bag' %}">Men's</a>
+    <a href="{% url 'AsianFashion:sign_in' %}">Sign in</a>
+    {% endif %}
+</div>
+<!-- Main item content -->
+<div class="detail">
+<!-- Display item image -->
+<img src="{% static item.img_url %}" alt="image cannot load">
+<!-- Purchase form and add-to-cart form -->
+<form action="{% url 'AsianFashion:buy_or_add_item_to_cart' item_id %}" method="post">{% csrf_token %}
+    <!-- Display item description -->
+    <div class="text">
+    <!-- Display error message. -->
+    <strong style="color: red; font-size: x-large;">{{error_message}}</strong>
+    <!-- Display item information -->
+    <p>{{item.title}}</p>
+    <p>Price: ${{item.price}}</p>
+    {% if item.category == "women_phonecase" %}
+    <!-- Skip size metric if this is a phone case -->
+    {% else %}
+    <p>Size: {{ item.length }}'' x {{ item.width }}'' x {{ item.height }}''</p>
+    {% endif %}
+    <p>Material: {{ item.material }}</p>
+    <p>Description: {{ item.description }}</p>
+    <!-- Display all choices associated with item -->
+    {% for choice in item.choice_set.all %}
+    <label for="choice{{ forloop.counter }}">
+    <p style="margin: 5px;"><input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}">{{choice.choice_text}}</p>
+    </label>
+    <input type="hidden" name="have_choice">
+    {% endfor %}
+    <!-- Add shipping rule and return policy -->
+    <p>Shipping and return policies: </p>
+    <p style="font-size: 23px;"> Shipping policy: Orders typically arrive within 7-16 days, presale items take up to 8 more days. There is a flat $10 shipping fee for order under $150, and free shipping for order over $150, the amount is calculated before tax.</p>
+    <p style="font-size: 23px;"> Return policy: We accept returns within 14 days of order delivery, however, while you will be refunded in full (including the shipping fee), you are responsible to handle the return's shipping cost. </p>
+    <!-- Submit customer id if the customer logs in. -->
+    {% if customer_uuid %}
+    <input type="hidden" name="customer_uuid" value={{customer_uuid}}>
+    {% endif %}
+    <!-- Add a tail note for bag category. -->
+    {% if item.category == "women_phonecase" %}
+    <p style="font-style: italic;font-size: 23px;"> Before buying, please make sure you select the correct model for the phone case.</p>
+    {% else %}
+    <p style="font-style: italic;font-size: 23px;">Before buying, please make sure you read over the size measurement, as image
+        doesn't tend to scale with the actual item. We try to make it very clear about what the item is and how large it is in its description.
+        By saying "capable of holding books", we are visualizing to you the item size, but you don't have to use it to hold books. 
+        Bag height doesn't include stripes.
+    </p>
+    {% endif %}
+    <input class="textbox" type="submit" name="buy" value = "Buy">
+    <input class="textbox" type="submit" name="add-to-cart" value = "Add to cart">
+    </div>
+</form>
+<!-- Item content ended -->
+</div>
+<!-- Foot Navigation -->
+<div class="footnav">
+<!-- Customer service -->
+<p style="font-style: italic;">For any questions, please contact <a href="mailto:{{customer_service_email}}">{{customer_service_email}}</a>, and allow 2 business days before hearing back from us.</p>
+</div>
+<!-- End escape side bar -->
+</div>
+</body>
+</html>

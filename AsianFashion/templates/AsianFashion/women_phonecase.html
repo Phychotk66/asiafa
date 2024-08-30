@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- Head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion women's phonecase </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bag for women, phone case, and bag for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<!-- Body -->
+<body>
+<!-- Side navigation -->
+<div class="sidenav">
+    <div class = "logo">Asian Fashion</div>
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Bag</a>
+    <a href="#">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather_signed_in' customer_uuid %}">Leather</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:women_bag' %}">Bag</a>
+    <a href="#">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather' %}">Leather</a>
+    {% endif %}
+</div>
+<!-- Escape sidebar begin -->
+<div class="escape_sidebar">
+<!-- Top navigation -->
+<div class="topnav">
+    <a class="active" href="">Women's</a>
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Men's</a>
+    <a href="{% url 'AsianFashion:cart_signed_in' customer_uuid %}">Cart</a>
+    <a href="{% url 'AsianFashion:sign_out' %}">Sign out</a>
+    <div style="font-size: x-large; color: rgb(255, 128, 0);"> hello, {{customer.email}} </div>
+    {% else %}
+    <a href="{% url 'AsianFashion:men_bag' %}">Men's</a>
+    <a href="{% url 'AsianFashion:sign_in' %}">Sign in</a>
+    {% endif %}
+</div>
+<!-- Page content -->
+<div class="wrapper">
+    {% for phonecase in women_phonecase_list %}
+    <div class="img-with-text">
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:item_detail_signed_in' customer_uuid phonecase.id %}"><img src="{% static phonecase.img_url %}" alt="image cannot be loaded"/>{{phonecase.title}} ${{phonecase.price}}</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:item_detail' phonecase.id %}"><img src="{% static phonecase.img_url %}" alt="image cannot be loaded"/>{{phonecase.title}} ${{phonecase.price}}</a>
+    {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<!-- Foot Navigation -->
+<div class="footnav">
+    <!-- Add shipping rule and return policy -->
+    <p style="margin-bottom:0;"> Shipping policy: There is a flat $10 shipping fee for orders under $150, and free shipping for orders over $150, and the amount is calculated before tax.
+        We accept returns within 14 days of order delivery, however, while you will be refunded in full (including the shipping fee), you are responsible to handle the return's shipping cost. </p>
+    <!-- Add customer service -->
+    <p style="margin: 0; font-style: italic;">For any questions, please contact <a href="mailto:{{customer_service_email}}">{{customer_service_email}}</a>, and allow 2 business days before hearing back from us.</p>
+</div>
+<!-- Escape sidebar ended -->
+</div>
+<!-- Body end -->
+</body>
+<!-- File end -->
+</html>

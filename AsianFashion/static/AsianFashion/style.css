@@ -1,0 +1,149 @@
+/* The topbar menu */
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: white;
+    color: black;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+  
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 28px;
+}
+  
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: orange;
+    color: white;
+}
+  
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: orange;
+    color: white;
+}
+
+/* The sidebar menu */
+.sidenav {
+    height:100%; 
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    background-color: white;
+    }
+  
+/* The navigation menu links */
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 28px;
+    color: #7d7d7d;
+    display: block;
+}
+
+/* Incorporate the title */
+.sidenav .logo {
+    padding: 6px 8px 6px 16px;
+    font-style: italic;
+    font-size: 25px;
+    color: orangered;
+    display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: orange;
+}
+   
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* Escape side bar width */
+.escape_sidebar {
+    margin-left: 160px; /* Same as the width of the sidebar */
+}
+
+/* The footbar menu */
+.footnav {
+    color: #111;
+    font-size: 25px;
+}
+
+/* Item block on main page layout */
+.wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 400px 400px;
+    gap: 100px;
+}
+
+/* Hang text below the image */
+.img-with-text {
+    text-align: justify;
+    width: 300px; /* Same as the image width */
+    font-size: 25px;
+}
+.img-with-text a{
+    text-decoration: none;
+    color: rgb(117, 116, 116);
+}
+.img-with-text a:hover{
+    color: black;
+}
+.img-with-text img {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Item detail page layout */
+.detail {
+    display: flex;
+}
+.detail .text {
+    font-size: 25px;
+    margin: 1em;
+    align-self: flex-end;
+}
+.detail img {
+    width: 500px;
+    height: 500px;
+}
+.detail .textbox{
+    width: 200px;
+    height:60px;
+    font-size:25px;
+    margin: 10px;
+}
+
+/* Style input text, pages including sign-in, sign-up, reset-password */
+input[class=text] {
+    width: 40%;
+    font-size: large;
+    padding: 12px 20px;
+    margin: 8px 8px;
+    box-sizing: border-box;
+}
+/* Style input textbox, pages including sign-in, sign-up, reset-password, item detail page */
+input[class=textbox] {
+    background-color: #ef7314;
+    border: none;
+    color: white;
+    font-size: large;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+input[class=textbox]:hover {
+    color: #464444;
+}

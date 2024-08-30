@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- HTML Head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion cancel order </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bag for women, phone case, and bag for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<body>
+<!-- Top navigation -->
+<div class="topnav">
+  {% if customer_uuid %}
+  <a href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Women's</a>
+  <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Men's</a>
+  <a href="{% url 'AsianFashion:cart_signed_in' customer_uuid %}">Cart</a>
+  <a href="{% url 'AsianFashion:sign_out' %}">Sign out</a>
+  {% else %}
+  <a href="{% url 'AsianFashion:women_bag' %}">Women's</a>
+  <a href="{% url 'AsianFashion:men_bag' %}">Men's</a>
+  <a href="{% url 'AsianFashion:sign_in' %}">Sign in</a>
+  {% endif %}
+</div>
+<!-- Page content -->
+<!-- Center aligned content -->
+<div style="text-align: center;">
+<h1>Your following order has been canceled:</h1>
+<p style="margin-left: 20%; margin-right: 20%; font-size: x-large;">{{order_summary}}</p>
+</div>
+</body>
+</html>

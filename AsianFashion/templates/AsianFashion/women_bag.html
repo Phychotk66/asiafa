@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<!-- head and SEO fields -->
+<head>
+    <meta charset="utf-8"/>
+    <title> Asian Fashion women's bag </title>
+    <meta name="description" content="We offer beautiful, fashionable, 
+    and affordable bags for women, phone case for women, and bags for men. By shopping with
+    us, you will enjoy the great benefits of asian manufacturers. Our goal is to bring out
+    the asian market's potential and build a win-win strategy with our customers.">
+    <!-- Load CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'AsianFashion/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'AsianFashion/images/logo.png' %}">
+</head>
+<!-- body -->
+<body>
+<!-- Side navigation -->
+<div class="sidenav">
+    <div class = "logo">Asian Fashion</div>
+    <a href="">Bag</a>
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:women_phonecase_signed_in' customer_uuid %}">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather_signed_in' customer_uuid %}">Leather</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:women_phonecase' %}">Phonecase</a>
+    <a href="{% url 'AsianFashion:women_leather' %}">Leather</a>
+    {% endif %}
+</div>
+<!-- Escape side bar -->
+<div class="escape_sidebar">
+<!-- Top navigation -->
+<div class="topnav">
+    {% if customer_uuid %}
+    <a class="active" href="{% url 'AsianFashion:women_bag_signed_in' customer_uuid %}">Women's</a>
+    <a href="{% url 'AsianFashion:men_bag_signed_in' customer_uuid %}">Men's</a>
+    <a href="{% url 'AsianFashion:cart_signed_in' customer_uuid %}">Cart</a>
+    <a href="{% url 'AsianFashion:sign_out' %}">Sign out</a>
+    <div style="font-size: x-large; color: rgb(255, 128, 0);"> hello, {{customer.email}} </div>
+    {% else %}
+    <a class="active" href="{% url 'AsianFashion:women_bag' %}">Women's</a>
+    <a href="{% url 'AsianFashion:men_bag' %}">Men's</a>
+    <a href="{% url 'AsianFashion:sign_in' %}">Sign in</a>
+    {% endif %}
+</div>
+<!-- Page content -->
+<div class="wrapper">
+    {% for bag in women_bag_list %}
+    <div class="img-with-text">
+    {% if customer_uuid %}
+    <a href="{% url 'AsianFashion:item_detail_signed_in' customer_uuid bag.id %}"><img src="{% static bag.img_url %}" alt="image cannot load"/>{{bag.title}} ${{bag.price}}</a>
+    {% else %}
+    <a href="{% url 'AsianFashion:item_detail' bag.id %}"><img src="{% static bag.img_url %}" alt="image cannot load"/>{{bag.title}} ${{bag.price}}</a>
+    {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<!-- Foot Navigation -->
+<div class="footnav">
+    <!-- Add shipping rule and return policy -->
+    <p style="margin-bottom:0;"> Shipping policy: There is a flat $10 shipping fee for orders under $150, and free shipping for orders over $150, and the amount is calculated before tax.
+        We accept returns within 14 days of order delivery, however, while you will be refunded in full (including the shipping fee), you are responsible to handle the return's shipping cost. </p>
+    <!-- Add customer service -->
+    <p style="margin: 0; font-style: italic;">For any questions, please contact <a href="mailto:{{customer_service_email}}">{{customer_service_email}}</a>, and allow 2 business days before hearing back from us.</p>
+</div>
+<!-- End escape sidebar -->
+</div>
+</body>
+</html>
